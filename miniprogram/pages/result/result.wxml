@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="card" wx:if="{{record}}">
+    <view class="title">本题已完成</view>
+    <view style="margin-top: 12rpx;">题目：{{record.title}}</view>
+    <view style="margin-top: 12rpx;">你的答案：{{record.answerText}}</view>
+    <view style="margin-top: 12rpx; color: #07c160;">本题得分：{{record.score}}</view>
+
+    <button class="btn" type="primary" bindtap="goSummary">查看我的总分</button>
+    <button class="btn" bindtap="goHome">继续扫码</button>
+  </view>
+</view>

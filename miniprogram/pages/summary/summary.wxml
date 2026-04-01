@@ -1,0 +1,20 @@
+<view class="container">
+  <view class="card">
+    <view class="title">我的成绩</view>
+    <view>已答题数量：{{count}}</view>
+    <view style="margin-top: 12rpx;">答对题数：{{correctCount}}</view>
+    <view style="margin-top: 12rpx; color: #07c160;">总分：{{totalScore}}</view>
+
+    <view style="margin-top: 28rpx;">
+      <view wx:for="{{list}}" wx:key="_id" style="padding: 20rpx 0; border-bottom: 1px solid #eee;">
+        <view>题号：{{item.qid}}</view>
+        <view>题目：{{item.title}}</view>
+        <view>你的答案：{{item.answerKey}}. {{item.answerText}}</view>
+        <view>是否答对：{{item.isCorrect ? '是' : '否'}}</view>
+        <view>得分：{{item.score}}</view>
+      </view>
+    </view>
+
+    <button class="btn" bindtap="goHome">返回首页</button>
+  </view>
+</view>

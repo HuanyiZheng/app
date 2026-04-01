@@ -1,0 +1,10 @@
+<view class="container">
+  <view class="card">
+    <view class="title">寻宝扫码答题</view>
+    <view class="subtext">进入后点击扫码，每个二维码对应一道题。</view>
+
+    <button class="btn" type="primary" bindtap="handleScan">扫码答题</button>
+    <button class="btn" bindtap="goSummary">查看总分</button>
+    <button class="btn" bindtap="generateMiniCodes">生成测试二维码</button>
+  </view>
+</view>
