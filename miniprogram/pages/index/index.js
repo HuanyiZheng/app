@@ -1,3 +1,4 @@
+// 首页逻辑：保留登录状态、扫码答题、查看总分
 const app = getApp()
 
 Page({
@@ -8,6 +9,7 @@ Page({
   },
 
   async onShow() {
+    // 每次回到首页都同步一次登录状态
     this.setData({
       loggingIn: true,
       loggedIn: false,
@@ -36,9 +38,8 @@ Page({
   },
 
   handleScan() {
-    if (!this.data.loggedIn) {
-      return
-    }
+    // 未登录时不继续执行
+    if (!this.data.loggedIn) return
 
     wx.scanCode({
       success: (res) => {
@@ -65,13 +66,16 @@ Page({
     })
   },
 
+  // 兼容普通二维码和小程序码
   parseQid(res) {
     if (res.path) {
       const fullPath = decodeURIComponent(res.path)
 
+      // 1. path 中直接带 qid
       let match = fullPath.match(/[?&]qid=([^&]+)/)
       if (match) return decodeURIComponent(match[1])
 
+      // 2. path 中带 scene，再从 scene 里取 qid
       match = fullPath.match(/[?&]scene=([^&]+)/)
       if (match) {
         const scene = decodeURIComponent(match[1])
@@ -83,11 +87,10 @@ Page({
       }
     }
 
+    // 3. 普通二维码内容
     const result = decodeURIComponent((res.result || '').trim())
 
-    if (/^q\d+$/.test(result)) {
-      return result
-    }
+    if (/^q\d+$/.test(result)) return result
 
     let match = result.match(/^qid=(.+)$/)
     if (match) return decodeURIComponent(match[1])
@@ -95,6 +98,7 @@ Page({
     match = result.match(/[?&]qid=([^&]+)/)
     if (match) return decodeURIComponent(match[1])
 
+    // 4. 兼容 result 中是 scene=...
     match = result.match(/[?&]?scene=([^&]+)/)
     if (match) {
       const scene = decodeURIComponent(match[1])
@@ -109,9 +113,8 @@ Page({
   },
 
   goSummary() {
-    if (!this.data.loggedIn) {
-      return
-    }
+    // 未登录时不继续执行
+    if (!this.data.loggedIn) return
 
     wx.navigateTo({
       url: '/pages/summary/summary'

@@ -1,30 +1,193 @@
+/* 全局基础样式 */
+
 page {
-  background: #f6f7fb;
+  background: linear-gradient(180deg, #edf8d7 0%, #f8fbf2 34%, #f6f7fb 100%);
+  color: #2f342c;
+  font-family:
+    "PingFang SC",
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+}
+
+/* 通用页面背景 */
+.theme-page {
   min-height: 100vh;
+  background:
+    linear-gradient(180deg, #edf8d7 0%, #f8fbf2 34%, #f6f7fb 100%);
+  padding: 0 28rpx 40rpx;
+  box-sizing: border-box;
 }
 
-.container {
-  padding: 32rpx;
+/* 顶部主题头图 */
+.theme-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 40rpx 28rpx 90rpx;
+  border-bottom-left-radius: 40rpx;
+  border-bottom-right-radius: 40rpx;
+  background:
+    linear-gradient(135deg, #dff0b8 0%, #f5f9ea 48%, #ffffff 100%);
+  box-shadow: 0 14rpx 36rpx rgba(127, 177, 58, 0.08);
+  text-align: center;
 }
 
-.card {
+/* 中间白卡片 */
+.theme-card {
+  position: relative;
+  margin-top: -52rpx;
   background: #ffffff;
-  border-radius: 20rpx;
-  padding: 32rpx;
-  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.06);
+  border-radius: 28rpx;
+  padding: 30rpx 28rpx 34rpx;
+  box-shadow: 0 18rpx 44rpx rgba(58, 79, 35, 0.10);
 }
 
-.title {
-  font-size: 38rpx;
+/* 标题 */
+.theme-tag {
+  display: inline-block;
+  padding: 10rpx 24rpx;
+  border-radius: 999rpx;
+  background: rgba(127, 177, 58, 0.12);
+  color: #6e9630;
+  font-size: 32rpx;
   font-weight: 700;
-  margin-bottom: 24rpx;
 }
 
-.subtext {
-  font-size: 28rpx;
-  color: #666;
-}
-
-.btn {
+.theme-title {
   margin-top: 24rpx;
+  font-size: 48rpx;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #31452b;
+  text-align: center;
+  font-family:
+    "STKaiti",
+    "KaiTi",
+    "Songti SC",
+    "PingFang SC",
+    serif;
+}
+
+.theme-subtitle {
+  margin-top: 14rpx;
+  font-size: 28rpx;
+  color: #6f7b62;
+  text-align: center;
+  line-height: 1.6;
+  font-family:
+    "STKaiti",
+    "KaiTi",
+    "Songti SC",
+    "PingFang SC",
+    serif;
+}
+
+/* 通用按钮 */
+.action-btn {
+  margin-top: 24rpx;
+  width: 72%;
+  height: 92rpx;
+  border-radius: 20rpx;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: 700;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+.action-btn::after {
+  border: none;
+}
+
+.action-btn.primary {
+  color: #ffffff;
+  background: linear-gradient(135deg, #8bbf3d 0%, #74aa2f 100%);
+  box-shadow: 0 10rpx 24rpx rgba(127, 177, 58, 0.22);
+}
+
+.action-btn.secondary {
+  color: #6f9630;
+  background: #ffffff;
+  border: 2rpx solid #cfe2a5;
+}
+
+/* 小花装饰 */
+.flower {
+  position: absolute;
+  width: 56rpx;
+  height: 56rpx;
+}
+
+.flower.top-right {
+  right: 60rpx;
+  top: 130rpx;
+  transform: rotate(-12deg);
+}
+
+.flower.bottom-left {
+  left: 24rpx;
+  bottom: 32rpx;
+  transform: scale(1.08);
+}
+
+.petal {
+  position: absolute;
+  width: 24rpx;
+  height: 24rpx;
+  background: #fff7ef;
+  border: 2rpx solid rgba(247, 201, 182, 0.55);
+  border-radius: 50%;
+}
+
+.petal-top {
+  top: 0;
+  left: 16rpx;
+}
+
+.petal-right {
+  right: 0;
+  top: 16rpx;
+}
+
+.petal-bottom {
+  bottom: 0;
+  left: 16rpx;
+}
+
+.petal-left {
+  left: 0;
+  top: 16rpx;
+}
+
+.flower-core {
+  position: absolute;
+  left: 20rpx;
+  top: 20rpx;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: #f3b239;
+}
+
+/* 通用内容标题 */
+.content-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #2f342c;
+  line-height: 1.4;
+}
+
+.info-text {
+  font-size: 28rpx;
+  color: #66715f;
+  line-height: 1.7;
+}
+
+button[disabled] {
+  opacity: 0.55;
 }

@@ -1,19 +1,54 @@
-<view class="container">
-  <view class="card">
-    <view class="title">寻宝扫码答题</view>
-    <view class="subtext">扫码进入题目，答题后可查看总分。</view>
+<!-- 首页：清新简洁版 -->
+<view class="page">
+  <!-- 顶部春日主题区 -->
+  <view class="hero">
+    <!-- 装饰圆点 -->
+    <view class="deco deco-circle deco-circle-1"></view>
+    <view class="deco deco-circle deco-circle-2"></view>
 
-    <view style="margin-top: 24rpx; font-size: 28rpx;">
-      <text wx:if="{{loggingIn}}">登录中</text>
-      <text wx:elif="{{loggedIn}}" style="color: #07c160;">已登录，可开始答题</text>
-      <text wx:elif="{{loginError}}" style="color: #e64340;">登录失败，请重试</text>
+    <!-- 简化小花 -->
+    <view class="flower flower-1">
+      <view class="petal petal-top"></view>
+      <view class="petal petal-right"></view>
+      <view class="petal petal-bottom"></view>
+      <view class="petal petal-left"></view>
+      <view class="flower-core"></view>
     </view>
 
-    <button class="btn" type="primary" bindtap="handleScan" disabled="{{loggingIn || !loggedIn}}">
+    <view class="flower flower-2">
+      <view class="petal petal-top"></view>
+      <view class="petal petal-right"></view>
+      <view class="petal petal-bottom"></view>
+      <view class="petal petal-left"></view>
+      <view class="flower-core"></view>
+    </view>
+
+    <!-- 标题区 -->
+    <view class="hero-tag">法治寻宝答题</view>
+    <view class="hero-title">
+      <text class="hero-title-top">江郎山下·</text>
+      <text class="hero-title-main">豆蔻年华法治行</text>
+    </view>
+    <view class="hero-subtitle">知法懂法不负“豆蔻”好年华</view>
+    <view class="hero-desc">扫码进入题目，答题后可查看总分</view>
+  </view>
+
+  <!-- 功能卡片 -->
+  <view class="panel">
+    <!-- 登录状态 -->
+    <view class="status-box">
+      <view class="status-dot {{loggedIn ? 'is-success' : (loginError ? 'is-error' : '')}}"></view>
+      <text wx:if="{{loggingIn}}">登录中</text>
+      <text wx:elif="{{loggedIn}}">已登录，可开始答题</text>
+      <text wx:elif="{{loginError}}">登录失败，请重试</text>
+    </view>
+
+    <!-- 主按钮 -->
+    <button class="action-btn primary" bindtap="handleScan" disabled="{{loggingIn || !loggedIn}}">
       扫码答题
     </button>
 
-    <button class="btn" bindtap="goSummary" disabled="{{loggingIn || !loggedIn}}">
+    <button class="action-btn secondary" bindtap="goSummary" disabled="{{loggingIn || !loggedIn}}">
       查看总分
     </button>
   </view>

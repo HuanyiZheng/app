@@ -1,14 +1,36 @@
-<view class="container">
-  <view class="card" wx:if="{{record}}">
-    <view class="title" wx:if="{{record.isCorrect}}" style="color: #07c160;">回答正确</view>
-    <view class="title" wx:else style="color: #e64340;">回答错误</view>
+<view class="theme-page">
+  <view class="theme-hero">
+    <view class="theme-tag">法治寻宝答题</view>
+    <view class="theme-title">答题结果</view>
+    <view class="theme-subtitle">继续扫码可进入下一道题</view>
 
-    <view style="margin-top: 12rpx;">题目：{{record.title}}</view>
-    <view style="margin-top: 12rpx;">你的答案：{{record.answerKey}}. {{record.answerText}}</view>
-    <view style="margin-top: 12rpx;">正确答案：{{record.correctAnswerKey}}. {{record.correctAnswerText}}</view>
-    <view style="margin-top: 12rpx; color: #07c160;">本题得分：{{record.score}}</view>
+    <view class="flower top-right">
+      <view class="petal petal-top"></view>
+      <view class="petal petal-right"></view>
+      <view class="petal petal-bottom"></view>
+      <view class="petal petal-left"></view>
+      <view class="flower-core"></view>
+    </view>
+  </view>
 
-    <button class="btn" type="primary" bindtap="goSummary">查看我的总分</button>
-    <button class="btn" bindtap="goHome">继续扫码</button>
+  <view class="theme-card" wx:if="{{record}}">
+    <view class="content-title" wx:if="{{record.isCorrect}}" style="color: #07c160; text-align:center;">
+      回答正确
+    </view>
+    <view class="content-title" wx:else style="color: #e64340; text-align:center;">
+      回答错误
+    </view>
+
+    <view class="info-text" style="margin-top: 20rpx;">题目：{{record.title}}</view>
+    <view class="info-text" style="margin-top: 12rpx;">你的答案：{{record.answerKey}}. {{record.answerText}}</view>
+    <view class="info-text" style="margin-top: 12rpx;">正确答案：{{record.correctAnswerKey}}. {{record.correctAnswerText}}</view>
+    <view class="info-text" style="margin-top: 12rpx; color: #07c160;">本题得分：{{record.score}}</view>
+
+    <button class="action-btn primary" bindtap="goSummary" style="margin-left:auto; margin-right:auto;">
+      查看我的总分
+    </button>
+    <button class="action-btn secondary" bindtap="continueScan" style="margin-left:auto; margin-right:auto;">
+      继续扫码
+    </button>
   </view>
 </view>

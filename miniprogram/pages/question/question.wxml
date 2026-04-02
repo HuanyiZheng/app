@@ -1,13 +1,34 @@
-<view class="container">
-  <view class="card" wx:if="{{question}}">
-    <view class="title">{{question.title}}</view>
+<view class="theme-page">
+  <view class="theme-hero">
+    <view class="theme-tag">法治寻宝答题</view>
+    <view class="theme-title">请选择你认为正确的答案</view>
+    <view class="theme-subtitle">答题后可查看正确答案和本题得分</view>
+
+    <view class="flower top-right">
+      <view class="petal petal-top"></view>
+      <view class="petal petal-right"></view>
+      <view class="petal petal-bottom"></view>
+      <view class="petal petal-left"></view>
+      <view class="flower-core"></view>
+    </view>
+  </view>
+
+  <view class="theme-card" wx:if="{{question}}">
+    <view class="content-title">{{question.title}}</view>
 
     <radio-group bindchange="handleChoose">
-      <label wx:for="{{question.options}}" wx:key="index" style="display:block; margin: 24rpx 0;">
-        <radio value="{{index}}" checked="{{selectedIndex == index}}" />
-        <text style="margin-left: 12rpx;">{{item.text}}</text>      </label>
+      <label wx:for="{{question.options}}" wx:key="index" style="display:block; margin: 28rpx 0;">
+        <view style="display:flex; align-items:flex-start;">
+          <radio value="{{index}}" checked="{{selectedIndex == index}}" />
+          <text style="margin-left: 16rpx; font-size: 30rpx; line-height: 1.7; color: #394133;">
+            {{item.text}}
+          </text>
+        </view>
+      </label>
     </radio-group>
 
-    <button class="btn" type="primary" bindtap="submitAnswer">提交答案</button>
+    <button class="action-btn primary" bindtap="submitAnswer" style="margin-left:auto; margin-right:auto;">
+      提交答案
+    </button>
   </view>
 </view>
