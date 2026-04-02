@@ -18,10 +18,22 @@ exports.main = async (event, context) => {
 
   try {
     const res = await db.collection('questions').doc(qid).get()
+    const question = res.data
+
+    const safeQuestion = {
+      _id: question._id,
+      qid: question.qid,
+      title: question.title,
+      options: (question.options || []).map((item, index) => ({
+        key: item.key,
+        text: item.text,
+        index
+      }))
+    }
 
     return {
       ok: true,
-      question: res.data
+      question: safeQuestion
     }
   } catch (err) {
     return {

@@ -29,6 +29,9 @@ exports.main = async (event, context) => {
     }
 
     const selectedOption = question.options[selectedIndex]
+    const correctAnswerKey = question.answer
+    const correctOption = (question.options || []).find(item => item.key === correctAnswerKey) || null
+
     const isCorrect = Number(selectedOption.score || 0) > 0
 
     const recordData = {
@@ -40,6 +43,8 @@ exports.main = async (event, context) => {
       answerText: selectedOption.text,
       score: Number(selectedOption.score || 0),
       isCorrect,
+      correctAnswerKey,
+      correctAnswerText: correctOption ? correctOption.text : '',
       updatedAt: Date.now()
     }
 

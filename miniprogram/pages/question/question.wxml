@@ -5,14 +5,9 @@
     <radio-group bindchange="handleChoose">
       <label wx:for="{{question.options}}" wx:key="index" style="display:block; margin: 24rpx 0;">
         <radio value="{{index}}" checked="{{selectedIndex == index}}" />
-        <text style="margin-left: 12rpx;">{{item.text}}（{{item.score}}分）</text>
-      </label>
+        <text style="margin-left: 12rpx;">{{item.text}}</text>      </label>
     </radio-group>
 
     <button class="btn" type="primary" bindtap="submitAnswer">提交答案</button>
-  </view>
-
-  <view class="card" wx:else>
-    <view>题目加载中或不存在</view>
   </view>
 </view>

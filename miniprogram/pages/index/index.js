@@ -1,18 +1,46 @@
 const app = getApp()
 
 Page({
-  handleScan() {
-    if (!app.globalData.openid) {
-      wx.showToast({
-        title: '正在登录，请稍后再试',
-        icon: 'none'
+  data: {
+    loggingIn: true,
+    loggedIn: false,
+    loginError: ''
+  },
+
+  async onShow() {
+    this.setData({
+      loggingIn: true,
+      loggedIn: false,
+      loginError: ''
+    })
+
+    try {
+      if (app.loginPromise) {
+        await app.loginPromise
+      } else {
+        await app.login()
+      }
+
+      this.setData({
+        loggingIn: false,
+        loggedIn: true,
+        loginError: ''
       })
-      app.login()
+    } catch (err) {
+      this.setData({
+        loggingIn: false,
+        loggedIn: false,
+        loginError: '登录失败'
+      })
+    }
+  },
+
+  handleScan() {
+    if (!this.data.loggedIn) {
       return
     }
 
     wx.scanCode({
-      onlyFromCamera: true,
       success: (res) => {
         const qid = this.parseQid(res)
 
@@ -39,11 +67,23 @@ Page({
 
   parseQid(res) {
     if (res.path) {
-      const match = res.path.match(/[?&]qid=([^&]+)/)
+      const fullPath = decodeURIComponent(res.path)
+
+      let match = fullPath.match(/[?&]qid=([^&]+)/)
       if (match) return decodeURIComponent(match[1])
+
+      match = fullPath.match(/[?&]scene=([^&]+)/)
+      if (match) {
+        const scene = decodeURIComponent(match[1])
+
+        let sceneMatch = scene.match(/(?:^|&)qid=([^&]+)/)
+        if (sceneMatch) return decodeURIComponent(sceneMatch[1])
+
+        if (/^q\d+$/.test(scene)) return scene
+      }
     }
 
-    const result = (res.result || '').trim()
+    const result = decodeURIComponent((res.result || '').trim())
 
     if (/^q\d+$/.test(result)) {
       return result
@@ -55,52 +95,26 @@ Page({
     match = result.match(/[?&]qid=([^&]+)/)
     if (match) return decodeURIComponent(match[1])
 
+    match = result.match(/[?&]?scene=([^&]+)/)
+    if (match) {
+      const scene = decodeURIComponent(match[1])
+
+      let sceneMatch = scene.match(/(?:^|&)qid=([^&]+)/)
+      if (sceneMatch) return decodeURIComponent(sceneMatch[1])
+
+      if (/^q\d+$/.test(scene)) return scene
+    }
+
     return ''
   },
 
   goSummary() {
+    if (!this.data.loggedIn) {
+      return
+    }
+
     wx.navigateTo({
       url: '/pages/summary/summary'
-    })
-  },
-
-  generateMiniCodes() {
-    wx.showLoading({
-      title: '生成中'
-    })
-
-    wx.cloud.callFunction({
-      name: 'batchGenerateMiniCodes',
-      data: {
-        start: 0,
-        limit: 10
-      }
-    }).then(res => {
-      wx.hideLoading()
-      console.log('生成结果 res =', res)
-
-      if (res.result && res.result.ok) {
-        wx.showToast({
-          title: `已生成${res.result.count}个码`,
-          icon: 'none'
-        })
-      } else {
-        const msg = (res.result && (res.result.msg || res.result.error)) || '生成失败'
-        console.error('云函数返回失败：', res.result)
-        wx.showModal({
-          title: '生成失败',
-          content: String(msg),
-          showCancel: false
-        })
-      }
-    }).catch(err => {
-      wx.hideLoading()
-      console.error('调用云函数失败：', err)
-      wx.showModal({
-        title: '调用失败',
-        content: JSON.stringify(err),
-        showCancel: false
-      })
     })
   }
 })

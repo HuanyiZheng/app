@@ -7,8 +7,8 @@ cloud.init({
 
 const db = cloud.database()
 
-const APPID = 'xx'
-const APPSECRET = 'xx'
+const APPID = 'wx62ec4ef59a8a64ad'
+const APPSECRET = 'c6408452992c2594b3e6114ae13b5fe4'
 const QUESTION_PAGE = 'pages/question/question'
 
 async function getAccessToken() {
@@ -28,7 +28,8 @@ async function generateMiniCode(accessToken, qid) {
   const payload = {
     scene: `qid=${qid}`,
     page: QUESTION_PAGE,
-    env_version: 'trial',
+    env_version: 'develop',
+    check_path: false,
     width: 430
   }
 
@@ -56,20 +57,26 @@ exports.main = async (event) => {
     const accessToken = await getAccessToken()
     console.log('access_token 获取成功')
 
-    const questionRes = await db.collection('questions').get()
+    const questionRes = await db.collection('questions')
+      .orderBy('qid', 'asc')
+      .skip(start)
+      .limit(limit)
+      .get()
+
     const questions = questionRes.data || []
 
     if (!questions.length) {
       return {
-        ok: false,
-        msg: 'questions 集合为空，请先导入题库'
+        ok: true,
+        count: 0,
+        list: [],
+        msg: '没有更多题目了'
       }
     }
 
-    const sliced = questions.slice(start, start + limit)
     const results = []
 
-    for (const item of sliced) {
+    for (const item of questions) {
       const qid = item.qid || item._id
       console.log('正在生成', qid)
 

@@ -1,10 +1,20 @@
 <view class="container">
   <view class="card">
     <view class="title">寻宝扫码答题</view>
-    <view class="subtext">进入后点击扫码，每个二维码对应一道题。</view>
+    <view class="subtext">扫码进入题目，答题后可查看总分。</view>
 
-    <button class="btn" type="primary" bindtap="handleScan">扫码答题</button>
-    <button class="btn" bindtap="goSummary">查看总分</button>
-    <button class="btn" bindtap="generateMiniCodes">生成测试二维码</button>
+    <view style="margin-top: 24rpx; font-size: 28rpx;">
+      <text wx:if="{{loggingIn}}">登录中</text>
+      <text wx:elif="{{loggedIn}}" style="color: #07c160;">已登录，可开始答题</text>
+      <text wx:elif="{{loginError}}" style="color: #e64340;">登录失败，请重试</text>
+    </view>
+
+    <button class="btn" type="primary" bindtap="handleScan" disabled="{{loggingIn || !loggedIn}}">
+      扫码答题
+    </button>
+
+    <button class="btn" bindtap="goSummary" disabled="{{loggingIn || !loggedIn}}">
+      查看总分
+    </button>
   </view>
 </view>

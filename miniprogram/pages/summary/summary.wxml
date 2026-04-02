@@ -1,9 +1,17 @@
 <view class="container">
-  <view class="card">
+  <view class="card" wx:if="{{loading}}">
     <view class="title">我的成绩</view>
-    <view>已答题数量：{{count}}</view>
+    <view>加载中...</view>
+  </view>
+
+  <view class="card" wx:else>
+    <view class="title">我的成绩</view>
+
+    <view style="margin-top: 24rpx;">已答题数量：{{count}}</view>
     <view style="margin-top: 12rpx;">答对题数：{{correctCount}}</view>
     <view style="margin-top: 12rpx; color: #07c160;">总分：{{totalScore}}</view>
+
+    <button class="btn" bindtap="goHome">返回首页</button>
 
     <view style="margin-top: 28rpx;">
       <view wx:for="{{list}}" wx:key="_id" style="padding: 20rpx 0; border-bottom: 1px solid #eee;">
@@ -14,7 +22,5 @@
         <view>得分：{{item.score}}</view>
       </view>
     </view>
-
-    <button class="btn" bindtap="goHome">返回首页</button>
   </view>
 </view>
