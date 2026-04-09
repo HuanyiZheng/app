@@ -30,16 +30,38 @@ Page({
       name: 'getQuestion',
       data: { qid }
     }).then(res => {
-      if (res.result.ok) {
+      const result = res.result || {}
+
+      if (result.ok) {
         this.setData({
-          question: res.result.question
+          question: result.question
         })
-      } else {
-        wx.showToast({
-          title: res.result.msg || '题目不存在',
-          icon: 'none'
-        })
+        return
       }
+
+      if (result.answered) {
+        wx.showModal({
+          title: '提示',
+          content: result.msg || '这道题你已经答过了，不能重复作答',
+          showCancel: false,
+          success: () => {
+            wx.navigateBack({
+              delta: 1,
+              fail: () => {
+                wx.reLaunch({
+                  url: '/pages/index/index'
+                })
+              }
+            })
+          }
+        })
+        return
+      }
+
+      wx.showToast({
+        title: result.msg || '题目不存在',
+        icon: 'none'
+      })
     }).catch(err => {
       console.error(err)
       wx.showToast({
@@ -68,15 +90,11 @@ Page({
 
     wx.cloud.callFunction({
       name: 'submitAnswer',
-      data: {
-        qid,
-        selectedIndex
-      }
+      data: { qid, selectedIndex }
     }).then(res => {
       if (res.result.ok) {
         const app = getApp()
         app.globalData.latestResult = res.result.record
-
         wx.navigateTo({
           url: '/pages/result/result'
         })

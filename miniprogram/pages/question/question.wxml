@@ -1,8 +1,7 @@
 <view class="theme-page">
   <view class="theme-hero">
     <view class="theme-tag">法治寻宝答题</view>
-    <view class="theme-title">请选择你认为正确的答案</view>
-    <view class="theme-subtitle">答题后可查看正确答案和本题得分</view>
+    <view class="question-page-title">请选择你认为正确的答案</view>
 
     <view class="flower top-right">
       <view class="petal petal-top"></view>
@@ -14,20 +13,18 @@
   </view>
 
   <view class="theme-card" wx:if="{{question}}">
-    <view class="content-title">{{question.title}}</view>
+    <view class="question-text">{{question.title}}</view>
 
     <radio-group bindchange="handleChoose">
-      <label wx:for="{{question.options}}" wx:key="index" style="display:block; margin: 28rpx 0;">
-        <view style="display:flex; align-items:flex-start;">
+      <label wx:for="{{question.options}}" wx:key="index" class="option-item">
+        <view class="option-row">
           <radio value="{{index}}" checked="{{selectedIndex == index}}" />
-          <text style="margin-left: 16rpx; font-size: 30rpx; line-height: 1.7; color: #394133;">
-            {{item.text}}
-          </text>
+          <text class="option-text">{{item.text}}</text>
         </view>
       </label>
     </radio-group>
 
-    <button class="action-btn primary" bindtap="submitAnswer" style="margin-left:auto; margin-right:auto;">
+    <button class="action-btn primary" bindtap="submitAnswer">
       提交答案
     </button>
   </view>

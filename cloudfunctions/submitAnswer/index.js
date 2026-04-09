@@ -1,8 +1,6 @@
 const cloud = require('wx-server-sdk')
 
-cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV
-})
+cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 
 const db = cloud.database()
 
@@ -11,26 +9,34 @@ exports.main = async (event, context) => {
   const { qid, selectedIndex } = event
 
   if (!qid || selectedIndex === undefined || selectedIndex === null) {
-    return {
-      ok: false,
-      msg: '参数不完整'
-    }
+    return { ok: false, msg: '参数不完整' }
   }
 
   try {
+    // 先检查是否已经答过
+    const existRes = await db.collection('records').where({
+      openid: OPENID,
+      qid
+    }).get()
+
+    if (existRes.data.length > 0) {
+      return {
+        ok: false,
+        msg: '这道题你已经答过了，不能重复作答'
+      }
+    }
+
     const questionRes = await db.collection('questions').doc(qid).get()
     const question = questionRes.data
 
     if (!question || !question.options || !question.options[selectedIndex]) {
-      return {
-        ok: false,
-        msg: '选项不存在'
-      }
+      return { ok: false, msg: '选项不存在' }
     }
 
     const selectedOption = question.options[selectedIndex]
     const correctAnswerKey = question.answer
-    const correctOption = (question.options || []).find(item => item.key === correctAnswerKey) || null
+    const correctOption =
+      (question.options || []).find(item => item.key === correctAnswerKey) || null
 
     const isCorrect = Number(selectedOption.score || 0) > 0
 
@@ -48,21 +54,9 @@ exports.main = async (event, context) => {
       updatedAt: Date.now()
     }
 
-    const existRes = await db.collection('records').where({
-      openid: OPENID,
-      qid
-    }).get()
-
-    if (existRes.data.length > 0) {
-      const recordId = existRes.data[0]._id
-      await db.collection('records').doc(recordId).update({
-        data: recordData
-      })
-    } else {
-      await db.collection('records').add({
-        data: recordData
-      })
-    }
+    await db.collection('records').add({
+      data: recordData
+    })
 
     return {
       ok: true,
